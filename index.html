@@ -537,9 +537,9 @@
                 <div class="payment-display" style="background: #ecfdf5; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center;">
                     <div style="font-size: 1.2em; color: #059669; font-weight: bold; margin-bottom: 10px;">💰 Customer gives you:</div>
                     <div style="font-size: 2.5em; color: #047857; font-weight: bold;" id="customer-pays">$5.00</div>
-                    <div style="margin-top: 10px; color: #065f46;">Change due: <span style="font-size: 1.5em; font-weight: bold; color: #dc2626;" id="change-due">$3.50</span></div>
+                    <div style="margin-top: 10px; color: #065f46;" id="change-due-label">Change due: <span style="font-size: 1.5em; font-weight: bold; color: #dc2626;" id="change-due">$3.50</span></div>
+                    <div style="margin-top: 10px; color: #065f46; font-style: italic; display: none;" id="change-due-hidden">💭 Calculate the change yourself!</div>
                 </div>
-            </div>
             
             <div class="register-display" id="register-display" style="display: none; background: linear-gradient(135deg, #1e3a5f 0%, #374151 100%); border-radius: 15px; padding: 20px; margin-bottom: 20px;">
                 <div style="text-align: center; color: #fbbf24; font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">🏦 YOUR REGISTER</div>
@@ -566,15 +566,18 @@
                 <div style="width: 100%; text-align: center; color: #059669; font-weight: bold; margin-bottom: 10px;">Your change:</div>
                 <div id="selected-coins-container" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
                 <div id="selected-total" style="width: 100%; text-align: center; margin-top: 10px; font-size: 1.3em; color: #059669;">Total: $0.00</div>
-                <button class="btn btn-check" onclick="clearSelectedCoins()" style="margin-top: 10px; padding: 8px 20px; font-size: 1em;">🗑️ Clear</button>
+                <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn btn-check" onclick="checkStoreAnswer()" style="padding: 10px 25px; font-size: 1.1em;">✓ Submit Change</button>
+                    <button class="btn btn-new" onclick="clearSelectedCoins()" style="padding: 10px 25px; font-size: 1.1em;">🗑️ Clear</button>
+                </div>
             </div>
             
             <div class="store-feedback" id="store-feedback" style="display: none; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center;">
                 <div style="font-size: 2em; margin-bottom: 10px;" id="store-feedback-icon">🎉</div>
                 <div style="font-size: 1.3em; color: #059669; font-weight: bold;" id="store-feedback-text">Correct change! Customer is happy!</div>
                 <div style="margin-top: 10px; color: #065f46;">+<span id="store-points">15</span> points | Tip: $<span id="store-tip">0.50</span></div>
+                <button class="btn btn-new" onclick="generateStoreProblem()" style="margin-top: 15px; padding: 10px 25px; font-size: 1.1em;">👤 Next Customer</button>
             </div>
-        </div>
 
         <div class="answer-section" id="answer-section">
             <div class="answer-label">What is the total? $</div>
@@ -887,10 +890,21 @@
 
         function generateStoreProblem() {
             let maxPrice;
+            let showChangeDue = true;
+            
             switch(currentDifficulty) {
-                case 'easy': maxPrice = 5; break;
-                case 'medium': maxPrice = 10; break;
-                case 'hard': maxPrice = 20; break;
+                case 'easy':
+                    maxPrice = 5;
+                    showChangeDue = true;
+                    break;
+                case 'medium':
+                    maxPrice = 15;
+                    showChangeDue = true;
+                    break;
+                case 'hard':
+                    maxPrice = 25;
+                    showChangeDue = false;
+                    break;
             }
             
             // Pick random item
@@ -901,9 +915,16 @@
             // Pick random customer name
             const customerName = customerNames[Math.floor(Math.random() * customerNames.length)];
             
-            // Determine payment amount (customer pays with common bills)
-            const paymentOptions = [1, 5, 10, 20];
-            customerPays = paymentOptions.filter(p => p >= itemPrice)[0] || 20;
+            // Determine payment amount - harder modes use less obvious payments
+            let paymentOptions;
+            if (currentDifficulty === 'easy') {
+                paymentOptions = [1, 5, 10, 20];
+            } else if (currentDifficulty === 'medium') {
+                paymentOptions = [5, 10, 20, 50];
+            } else {
+                paymentOptions = [10, 20, 50, 100];
+            }
+            customerPays = paymentOptions.filter(p => p >= itemPrice)[0] || 50;
             
             // Calculate change due
             changeDue = Math.round((customerPays - itemPrice) * 100) / 100;
@@ -921,7 +942,16 @@
             document.getElementById('item-name').textContent = item.name;
             document.getElementById('item-price').textContent = `$${itemPrice.toFixed(2)}`;
             document.getElementById('customer-pays').textContent = `$${customerPays.toFixed(2)}`;
-            document.getElementById('change-due').textContent = `$${changeDue.toFixed(2)}`;
+            
+            // Show or hide change due based on difficulty
+            if (showChangeDue) {
+                document.getElementById('change-due-label').style.display = 'block';
+                document.getElementById('change-due-hidden').style.display = 'none';
+                document.getElementById('change-due').textContent = `$${changeDue.toFixed(2)}`;
+            } else {
+                document.getElementById('change-due-label').style.display = 'none';
+                document.getElementById('change-due-hidden').style.display = 'block';
+            }
             
             clearSelectedCoins();
             document.getElementById('store-feedback').style.display = 'none';
