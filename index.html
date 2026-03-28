@@ -936,17 +936,6 @@
         function addSelectedCoin(name, value, label) {
             if (!sessionActive) return;
             
-            // Check if we have this coin in register for store mode
-            if (currentMode === 'store' && (registerCash[name] || 0) <= 0) {
-                const feedback = document.getElementById('store-feedback');
-                feedback.style.display = 'block';
-                feedback.style.background = 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)';
-                document.getElementById('store-feedback-icon').textContent = '⚠️';
-                document.getElementById('store-feedback-text').textContent = `Out of ${label}! Can't use this coin.`;
-                document.getElementById('store-feedback-text').style.color = '#dc2626';
-                return;
-            }
-            
             selectedCoins.push({ name, value, label });
             selectedTotal += value;
             selectedTotal = Math.round(selectedTotal * 100) / 100;
