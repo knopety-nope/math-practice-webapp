@@ -94,56 +94,149 @@
         }
 
         .coin {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            font-size: 0.9em;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            border: 3px solid rgba(0,0,0,0.1);
+            font-size: 1em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 -4px 4px rgba(0,0,0,0.2), inset 0 4px 4px rgba(255,255,255,0.3);
+            border: 3px solid rgba(0,0,0,0.15);
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .coin:hover {
+            transform: scale(1.1) rotate(5deg);
         }
 
         .penny {
-            background: linear-gradient(135deg, #cd7f32 0%, #b87333 100%);
-            color: white;
+            background: radial-gradient(circle at 30% 30%, #d4885f 0%, #cd7f32 40%, #b87333 100%);
+            color: #5c3a1e;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.3);
         }
 
         .nickel {
-            background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
-            color: #333;
+            background: radial-gradient(circle at 30% 30%, #e8e8e8 0%, #c0c0c0 40%, #a8a8a8 100%);
+            color: #4a4a4a;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
         }
 
         .dime {
-            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
-            color: #333;
-            width: 50px;
-            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #f0f0f0 0%, #e8e8e8 40%, #d0d0d0 100%);
+            color: #4a4a4a;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
+            width: 55px;
+            height: 55px;
+            font-size: 0.85em;
         }
 
         .quarter {
-            background: linear-gradient(135deg, #d4d4d4 0%, #b8b8b8 100%);
-            color: #333;
+            background: radial-gradient(circle at 30% 30%, #e0e0e0 0%, #d4d4d4 40%, #b8b8b8 100%);
+            color: #4a4a4a;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.4);
         }
 
         .bill {
-            width: 80px;
-            height: 40px;
-            border-radius: 5px;
+            width: 90px;
+            height: 45px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             color: white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            border: 2px solid rgba(0,0,0,0.2);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3), inset 0 -2px 4px rgba(0,0,0,0.2);
+            border: 2px solid rgba(0,0,0,0.25);
+            position: relative;
+            transition: transform 0.2s;
         }
 
-        .bill-1 { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
-        .bill-5 { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); }
-        .bill-10 { background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); }
+        .bill:hover {
+            transform: scale(1.05);
+        }
+
+        .bill::before {
+            content: '$';
+            position: absolute;
+            font-size: 1.5em;
+            opacity: 0.3;
+            left: 8px;
+        }
+
+        .bill::after {
+            content: '$';
+            position: absolute;
+            font-size: 1.5em;
+            opacity: 0.3;
+            right: 8px;
+        }
+
+        .bill-1 { 
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 50%, #1e8449 100%);
+            border: 2px solid #145a32;
+        }
+        .bill-5 { 
+            background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 50%, #566573 100%);
+            border: 2px solid #34495e;
+        }
+        .bill-10 { 
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 50%, #6c3483 100%);
+            border: 2px solid #4a235a;
+        }
+        .bill-20 { 
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 50%, #1a5276 100%);
+            border: 2px solid #154360;
+        }
+
+        .money-pile {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+            min-height: 100px;
+            padding: 20px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 15px;
+        }
+
+        .coin-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            padding: 20px;
+            background: #fef3c7;
+            border-radius: 15px;
+        }
+
+        .coin-option {
+            cursor: pointer;
+            opacity: 0.7;
+            transition: all 0.2s;
+        }
+
+        .coin-option:hover, .coin-option.selected {
+            opacity: 1;
+            transform: scale(1.15);
+        }
+
+        .selected-coins {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+            min-height: 80px;
+            padding: 15px;
+            background: #ecfdf5;
+            border-radius: 15px;
+            border: 3px dashed #22c55e;
+        }
 
         .operator {
             font-size: 3em;
@@ -398,6 +491,8 @@
             <button class="mode-btn active" onclick="setMode('addition')">➕ Addition</button>
             <button class="mode-btn" onclick="setMode('subtraction')">➖ Subtraction</button>
             <button class="mode-btn" onclick="setMode('mixed')">🔀 Mixed</button>
+            <button class="mode-btn" onclick="setMode('count')">🪙 Count Money</button>
+            <button class="mode-btn" onclick="setMode('change')">💵 Make Change</button>
         </div>
 
         <div class="difficulty-selector">
@@ -406,11 +501,29 @@
             <button class="difficulty-btn" onclick="setDifficulty('hard')">Hard</button>
         </div>
 
-        <div class="problem-area">
+        <div class="problem-area" id="problem-area">
             <div class="problem-text" id="problem-text">Let's practice!</div>
+            <div class="money-pile" id="money-pile" style="display: none;"></div>
             <div class="money-visual" id="money-visual-1"></div>
             <div class="operator" id="operator">+</div>
             <div class="money-visual" id="money-visual-2"></div>
+            
+            <div class="coin-selector" id="coin-selector" style="display: none;">
+                <div style="width: 100%; text-align: center; margin-bottom: 10px; color: #92400e; font-weight: bold;">Click coins to make exact change:</div>
+                <div class="coin-option penny coin" onclick="addSelectedCoin('penny', 0.01, '1¢')">1¢</div>
+                <div class="coin-option nickel coin" onclick="addSelectedCoin('nickel', 0.05, '5¢')">5¢</div>
+                <div class="coin-option dime coin" onclick="addSelectedCoin('dime', 0.10, '10¢')">10¢</div>
+                <div class="coin-option quarter coin" onclick="addSelectedCoin('quarter', 0.25, '25¢')">25¢</div>
+                <div class="coin-option bill bill-1" onclick="addSelectedCoin('bill-1', 1, '$1')">$1</div>
+                <div class="coin-option bill bill-5" onclick="addSelectedCoin('bill-5', 5, '$5')">$5</div>
+            </div>
+            
+            <div class="selected-coins" id="selected-coins" style="display: none;">
+                <div style="width: 100%; text-align: center; color: #059669; font-weight: bold; margin-bottom: 10px;">Your change:</div>
+                <div id="selected-coins-container" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
+                <div id="selected-total" style="width: 100%; text-align: center; margin-top: 10px; font-size: 1.3em; color: #059669;">Total: $0.00</div>
+                <button class="btn btn-check" onclick="clearSelectedCoins()" style="margin-top: 10px; padding: 8px 20px; font-size: 1em;">🗑️ Clear</button>
+            </div>
         </div>
 
         <div class="answer-section">
@@ -434,7 +547,10 @@
         let sessionLength = 20;
         let sessionQuestion = 0;
         let sessionActive = true;
-        let problemHistory = []; // Track generated problems to ensure variety
+        let problemHistory = [];
+        let selectedCoins = [];
+        let selectedTotal = 0;
+        let targetAmount = 0;
 
         function setSessionLength(length) {
             sessionLength = length;
@@ -452,6 +568,8 @@
             streak = 0;
             sessionActive = true;
             problemHistory = [];
+            selectedCoins = [];
+            selectedTotal = 0;
             
             document.getElementById('score').textContent = '0';
             document.getElementById('correct').textContent = '0';
@@ -460,8 +578,17 @@
             document.getElementById('session-complete').style.display = 'none';
             document.getElementById('mode-selector').style.display = 'flex';
             document.getElementById('session-progress').style.display = 'block';
+            
+            // Reset UI elements based on mode
+            const isChangeMode = currentMode === 'change';
+            document.getElementById('money-pile').style.display = (currentMode === 'count') ? 'flex' : 'none';
+            document.getElementById('money-visual-1').style.display = (currentMode === 'count' || currentMode === 'addition' || currentMode === 'subtraction' || currentMode === 'mixed') ? 'flex' : 'none';
+            document.getElementById('money-visual-2').style.display = (currentMode === 'addition' || currentMode === 'subtraction' || currentMode === 'mixed') ? 'flex' : 'none';
+            document.getElementById('operator').style.display = (currentMode === 'addition' || currentMode === 'subtraction' || currentMode === 'mixed') ? 'block' : 'none';
+            document.getElementById('coin-selector').style.display = isChangeMode ? 'flex' : 'none';
+            document.getElementById('selected-coins').style.display = isChangeMode ? 'flex' : 'none';
             document.getElementById('problem-area').style.display = 'flex';
-            document.getElementById('answer-section').style.display = 'block';
+            document.getElementById('answer-section').style.display = isChangeMode ? 'none' : 'block';
             
             generateProblem();
         }
@@ -537,30 +664,41 @@
         }
 
         function generateProblem() {
-            let maxAmount, amount1, amount2;
+            // Hide all elements first
+            document.getElementById('money-pile').style.display = 'none';
+            document.getElementById('money-visual-1').style.display = 'none';
+            document.getElementById('money-visual-2').style.display = 'none';
+            document.getElementById('operator').style.display = 'none';
+            document.getElementById('coin-selector').style.display = 'none';
+            document.getElementById('selected-coins').style.display = 'none';
+            document.getElementById('answer-section').style.display = 'block';
+            
+            if (currentMode === 'count') {
+                generateCountProblem();
+            } else if (currentMode === 'change') {
+                generateChangeProblem();
+            } else {
+                generateAddSubProblem();
+            }
+        }
 
+        function generateAddSubProblem() {
+            let maxAmount;
             switch(currentDifficulty) {
-                case 'easy':
-                    maxAmount = 5;
-                    break;
-                case 'medium':
-                    maxAmount = 20;
-                    break;
-                case 'hard':
-                    maxAmount = 50;
-                    break;
+                case 'easy': maxAmount = 5; break;
+                case 'medium': maxAmount = 20; break;
+                case 'hard': maxAmount = 50; break;
             }
 
             const money1 = getRandomMoney(maxAmount);
             const money2 = getRandomMoney(maxAmount);
 
-            // Determine operation
             let operation = currentMode;
             if (currentMode === 'mixed') {
                 operation = Math.random() > 0.5 ? 'addition' : 'subtraction';
             }
 
-            // For subtraction, ensure first amount is larger
+            let amount1, amount2;
             if (operation === 'subtraction' && money1.amount < money2.amount) {
                 [amount1, amount2] = [money2.amount, money1.amount];
                 [money1.items, money2.items] = [money2.items, money1.items];
@@ -569,29 +707,105 @@
                 amount2 = money2.amount;
             }
 
-            // Update operator display
+            document.getElementById('operator').style.display = 'block';
+            document.getElementById('money-visual-1').style.display = 'flex';
+            document.getElementById('money-visual-2').style.display = 'flex';
             document.getElementById('operator').textContent = operation === 'addition' ? '+' : '−';
-
-            // Render money visuals
             renderMoney(money1.items, 'money-visual-1');
             renderMoney(money2.items, 'money-visual-2');
-
-            // Set problem text
-            document.getElementById('problem-text').textContent = 
-                `$${amount1.toFixed(2)} ${operation === 'addition' ? '+' : '−'} $${amount2.toFixed(2)} = ?`;
-
-            // Calculate answer
+            document.getElementById('problem-text').textContent = `$${amount1.toFixed(2)} ${operation === 'addition' ? '+' : '−'} $${amount2.toFixed(2)} = ?`;
             currentAnswer = operation === 'addition' ? amount1 + amount2 : amount1 - amount2;
             currentAnswer = Math.round(currentAnswer * 100) / 100;
+            resetInput();
+        }
 
-            // Clear input and feedback
+        function generateCountProblem() {
+            let maxAmount;
+            switch(currentDifficulty) {
+                case 'easy': maxAmount = 5; break;
+                case 'medium': maxAmount = 20; break;
+                case 'hard': maxAmount = 50; break;
+            }
+
+            const money = getRandomMoney(maxAmount);
+            document.getElementById('money-pile').style.display = 'flex';
+            document.getElementById('money-pile').innerHTML = '';
+            money.items.forEach(item => {
+                const el = document.createElement('div');
+                if (item.name.startsWith('bill')) {
+                    el.className = `bill ${item.class}`;
+                    el.textContent = item.label;
+                } else {
+                    el.className = `coin ${item.class}`;
+                    el.textContent = item.label;
+                }
+                document.getElementById('money-pile').appendChild(el);
+            });
+            document.getElementById('problem-text').textContent = '🪙 Count the money! What is the total?';
+            currentAnswer = money.amount;
+            resetInput();
+        }
+
+        function generateChangeProblem() {
+            let maxAmount;
+            switch(currentDifficulty) {
+                case 'easy': maxAmount = 5; break;
+                case 'medium': maxAmount = 20; break;
+                case 'hard': maxAmount = 50; break;
+            }
+
+            targetAmount = Math.round((Math.random() * maxAmount + 1) * 100) / 100;
+            document.getElementById('coin-selector').style.display = 'flex';
+            document.getElementById('selected-coins').style.display = 'flex';
+            document.getElementById('problem-text').textContent = `💵 Make exact change for $${targetAmount.toFixed(2)}!`;
+            document.getElementById('answer-section').style.display = 'none';
+            clearSelectedCoins();
+        }
+
+        function resetInput() {
             document.getElementById('answer-input').value = '';
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('answer-input').focus();
         }
 
+        function addSelectedCoin(name, value, label) {
+            if (!sessionActive) return;
+            selectedCoins.push({ name, value, label });
+            selectedTotal += value;
+            selectedTotal = Math.round(selectedTotal * 100) / 100;
+            updateSelectedCoinsDisplay();
+        }
+
+        function clearSelectedCoins() {
+            selectedCoins = [];
+            selectedTotal = 0;
+            updateSelectedCoinsDisplay();
+        }
+
+        function updateSelectedCoinsDisplay() {
+            const container = document.getElementById('selected-coins-container');
+            container.innerHTML = '';
+            selectedCoins.forEach(coin => {
+                const el = document.createElement('div');
+                if (coin.name.startsWith('bill')) {
+                    el.className = `bill ${coin.name}`;
+                    el.textContent = coin.label;
+                } else {
+                    el.className = `coin ${coin.name}`;
+                    el.textContent = coin.label;
+                }
+                container.appendChild(el);
+            });
+            document.getElementById('selected-total').textContent = `Total: $${selectedTotal.toFixed(2)}`;
+        }
+
         function checkAnswer() {
             if (!sessionActive) return;
+            
+            if (currentMode === 'change') {
+                checkChangeAnswer();
+                return;
+            }
             
             const userInput = parseFloat(document.getElementById('answer-input').value);
             const feedback = document.getElementById('feedback');
@@ -608,14 +822,12 @@
             document.getElementById('current-question').textContent = Math.min(sessionQuestion + 1, sessionLength);
 
             if (Math.abs(userInput - currentAnswer) < 0.001) {
-                // Correct!
                 score += 10 + (streak * 2);
                 correctCount++;
                 streak++;
                 feedback.textContent = `🎉 Correct! Great job! (+${10 + (streak-1) * 2} points)`;
                 feedback.className = 'feedback correct';
             } else {
-                // Incorrect
                 streak = 0;
                 feedback.textContent = `😅 Not quite! The answer was $${currentAnswer.toFixed(2)}`;
                 feedback.className = 'feedback incorrect';
@@ -624,18 +836,55 @@
             document.getElementById('score').textContent = score;
             document.getElementById('correct').textContent = correctCount;
 
-            // Update streak display
             if (streak > 1) {
                 document.getElementById('streak').textContent = `🔥 ${streak} streak!`;
             } else {
                 document.getElementById('streak').textContent = '';
             }
 
-            // Check if session is complete
             if (sessionQuestion >= sessionLength) {
                 endSession();
             } else {
-                // Auto-generate next problem after short delay
+                setTimeout(generateProblem, 1500);
+            }
+        }
+
+        function checkChangeAnswer() {
+            const feedback = document.getElementById('feedback');
+            sessionQuestion++;
+            totalCount++;
+            document.getElementById('total').textContent = totalCount;
+            document.getElementById('current-question').textContent = Math.min(sessionQuestion + 1, sessionLength);
+
+            if (Math.abs(selectedTotal - targetAmount) < 0.001) {
+                score += 10 + (streak * 2);
+                correctCount++;
+                streak++;
+                feedback.textContent = `🎉 Exact change! Great job! (+${10 + (streak-1) * 2} points)`;
+                feedback.className = 'feedback correct';
+            } else {
+                streak = 0;
+                const diff = selectedTotal - targetAmount;
+                if (diff > 0) {
+                    feedback.textContent = `😅 Too much! You gave $${diff.toFixed(2)} extra. Target was $${targetAmount.toFixed(2)}`;
+                } else {
+                    feedback.textContent = `😅 Not enough! You need $${Math.abs(diff).toFixed(2)} more. Target was $${targetAmount.toFixed(2)}`;
+                }
+                feedback.className = 'feedback incorrect';
+            }
+
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct').textContent = correctCount;
+
+            if (streak > 1) {
+                document.getElementById('streak').textContent = `🔥 ${streak} streak!`;
+            } else {
+                document.getElementById('streak').textContent = '';
+            }
+
+            if (sessionQuestion >= sessionLength) {
+                endSession();
+            } else {
                 setTimeout(generateProblem, 1500);
             }
         }
