@@ -493,6 +493,7 @@
             <button class="mode-btn" onclick="setMode('mixed')">🔀 Mixed</button>
             <button class="mode-btn" onclick="setMode('count')">🪙 Count Money</button>
             <button class="mode-btn" onclick="setMode('change')">💵 Make Change</button>
+            <button class="mode-btn" onclick="setMode('store')" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: white;">🏪 Store</button>
         </div>
 
         <div class="difficulty-selector">
@@ -503,6 +504,33 @@
 
         <div class="problem-area" id="problem-area">
             <div class="problem-text" id="problem-text">Let's practice!</div>
+            
+            <div class="store-scene" id="store-scene" style="display: none;">
+                <div class="customer-display" style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+                    <div style="font-size: 3em; text-align: center; margin-bottom: 10px;">👤</div>
+                    <div style="text-align: center; font-size: 1.2em; color: #92400e; font-weight: bold;" id="customer-name">Customer</div>
+                    <div style="text-align: center; color: #78350f;" id="customer-greeting">Hi! I'd like to buy this:</div>
+                </div>
+                
+                <div class="item-display" style="background: white; border: 3px solid #f59e0b; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 4em; margin-bottom: 10px;" id="item-icon">🍎</div>
+                    <div style="font-size: 1.5em; font-weight: bold; color: #1e40af;" id="item-name">Apple</div>
+                    <div style="font-size: 2em; color: #059669; font-weight: bold; margin-top: 10px;" id="item-price">$1.50</div>
+                </div>
+                
+                <div class="payment-display" style="background: #ecfdf5; border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center;">
+                    <div style="font-size: 1.2em; color: #059669; font-weight: bold; margin-bottom: 10px;">💰 Customer gives you:</div>
+                    <div style="font-size: 2.5em; color: #047857; font-weight: bold;" id="customer-pays">$5.00</div>
+                    <div style="margin-top: 10px; color: #065f46;">Change due: <span style="font-size: 1.5em; font-weight: bold; color: #dc2626;" id="change-due">$3.50</span></div>
+                </div>
+            </div>
+            
+            <div class="register-display" id="register-display" style="display: none; background: linear-gradient(135deg, #1e3a5f 0%, #374151 100%); border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+                <div style="text-align: center; color: #fbbf24; font-size: 1.3em; font-weight: bold; margin-bottom: 15px;">🏦 YOUR REGISTER</div>
+                <div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;" id="register-content"></div>
+                <div style="text-align: center; color: #9ca3af; margin-top: 15px; font-size: 0.9em;">Starting: $50.00 | Current: <span id="register-total" style="color: #fbbf24; font-weight: bold;">$50.00</span></div>
+            </div>
+            
             <div class="money-pile" id="money-pile" style="display: none;"></div>
             <div class="money-visual" id="money-visual-1"></div>
             <div class="operator" id="operator">+</div>
@@ -523,6 +551,12 @@
                 <div id="selected-coins-container" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
                 <div id="selected-total" style="width: 100%; text-align: center; margin-top: 10px; font-size: 1.3em; color: #059669;">Total: $0.00</div>
                 <button class="btn btn-check" onclick="clearSelectedCoins()" style="margin-top: 10px; padding: 8px 20px; font-size: 1em;">🗑️ Clear</button>
+            </div>
+            
+            <div class="store-feedback" id="store-feedback" style="display: none; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center;">
+                <div style="font-size: 2em; margin-bottom: 10px;" id="store-feedback-icon">🎉</div>
+                <div style="font-size: 1.3em; color: #059669; font-weight: bold;" id="store-feedback-text">Correct change! Customer is happy!</div>
+                <div style="margin-top: 10px; color: #065f46;">+<span id="store-points">15</span> points | Tip: $<span id="store-tip">0.50</span></div>
             </div>
         </div>
 
@@ -551,7 +585,33 @@
         let selectedCoins = [];
         let selectedTotal = 0;
         let targetAmount = 0;
-
+        
+        // Store mode variables
+        let registerCash = {};
+        let registerTotal = 50.00;
+        let itemPrice = 0;
+        let customerPays = 0;
+        let changeDue = 0;
+        
+        const customerNames = ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Oliver', 'Sophia', 'Elijah', 'Isabella', 'Mason', 'Mia', 'Lucas', 'Charlotte', 'Ethan', 'Amelia'];
+        
+        const storeItems = [
+            { name: 'Apple', icon: '🍎', prices: [0.50, 0.75, 1.00, 1.25, 1.50] },
+            { name: 'Banana', icon: '🍌', prices: [0.30, 0.50, 0.75, 1.00] },
+            { name: 'Orange', icon: '🍊', prices: [0.60, 0.80, 1.00, 1.20] },
+            { name: 'Bread', icon: '🍞', prices: [2.00, 2.50, 3.00, 3.50] },
+            { name: 'Milk', icon: '🥛', prices: [1.50, 2.00, 2.50, 3.00] },
+            { name: 'Cookie', icon: '🍪', prices: [0.50, 0.75, 1.00, 1.25] },
+            { name: 'Candy', icon: '🍬', prices: [0.25, 0.50, 0.75, 1.00] },
+            { name: 'Ice Cream', icon: '🍦', prices: [1.50, 2.00, 2.50, 3.00] },
+            { name: 'Pizza', icon: '🍕', prices: [2.50, 3.00, 3.50, 4.00] },
+            { name: 'Sandwich', icon: '🥪', prices: [3.00, 4.00, 5.00, 6.00] },
+            { name: 'Juice', icon: '🧃', prices: [1.00, 1.50, 2.00, 2.50] },
+            { name: 'Donut', icon: '🍩', prices: [0.75, 1.00, 1.25, 1.50] },
+            { name: 'Cake', icon: '🍰', prices: [3.00, 4.00, 5.00, 6.00] },
+            { name: 'Coffee', icon: '☕', prices: [1.50, 2.00, 2.50, 3.00] },
+            { name: 'Toy', icon: '🧸', prices: [5.00, 7.50, 10.00, 12.50] }
+        ];
         function setSessionLength(length) {
             sessionLength = length;
             document.querySelectorAll('.session-btn').forEach(btn => btn.classList.remove('active'));
@@ -579,16 +639,10 @@
             document.getElementById('mode-selector').style.display = 'flex';
             document.getElementById('session-progress').style.display = 'block';
             
-            // Reset UI elements based on mode
-            const isChangeMode = currentMode === 'change';
-            document.getElementById('money-pile').style.display = (currentMode === 'count') ? 'flex' : 'none';
-            document.getElementById('money-visual-1').style.display = (currentMode === 'count' || currentMode === 'addition' || currentMode === 'subtraction' || currentMode === 'mixed') ? 'flex' : 'none';
-            document.getElementById('money-visual-2').style.display = (currentMode === 'addition' || currentMode === 'subtraction' || currentMode === 'mixed') ? 'flex' : 'none';
-            document.getElementById('operator').style.display = (currentMode === 'addition' || currentMode === 'subtraction' || currentMode === 'mixed') ? 'block' : 'none';
-            document.getElementById('coin-selector').style.display = isChangeMode ? 'flex' : 'none';
-            document.getElementById('selected-coins').style.display = isChangeMode ? 'flex' : 'none';
-            document.getElementById('problem-area').style.display = 'flex';
-            document.getElementById('answer-section').style.display = isChangeMode ? 'none' : 'block';
+            // Initialize register for store mode
+            if (currentMode === 'store') {
+                initRegister();
+            }
             
             generateProblem();
         }
@@ -672,11 +726,17 @@
             document.getElementById('coin-selector').style.display = 'none';
             document.getElementById('selected-coins').style.display = 'none';
             document.getElementById('answer-section').style.display = 'block';
+            document.getElementById('store-scene').style.display = 'none';
+            document.getElementById('register-display').style.display = 'none';
+            document.getElementById('store-feedback').style.display = 'none';
+            document.getElementById('problem-text').style.display = 'block';
             
             if (currentMode === 'count') {
                 generateCountProblem();
             } else if (currentMode === 'change') {
                 generateChangeProblem();
+            } else if (currentMode === 'store') {
+                generateStoreProblem();
             } else {
                 generateAddSubProblem();
             }
@@ -762,6 +822,93 @@
             clearSelectedCoins();
         }
 
+        function initRegister() {
+            registerCash = {
+                'penny': 20,
+                'nickel': 10,
+                'dime': 10,
+                'quarter': 10,
+                'bill-1': 10,
+                'bill-5': 4,
+                'bill-10': 2
+            };
+            registerTotal = 50.00;
+            updateRegisterDisplay();
+        }
+
+        function updateRegisterDisplay() {
+            const container = document.getElementById('register-content');
+            container.innerHTML = '';
+            
+            const coinTypes = [
+                { name: 'penny', label: '1¢', class: 'penny', value: 0.01 },
+                { name: 'nickel', label: '5¢', class: 'nickel', value: 0.05 },
+                { name: 'dime', label: '10¢', class: 'dime', value: 0.10 },
+                { name: 'quarter', label: '25¢', class: 'quarter', value: 0.25 },
+                { name: 'bill-1', label: '$1', class: 'bill-1', value: 1 },
+                { name: 'bill-5', label: '$5', class: 'bill-5', value: 5 },
+                { name: 'bill-10', label: '$10', class: 'bill-10', value: 10 }
+            ];
+            
+            coinTypes.forEach(coin => {
+                const count = registerCash[coin.name] || 0;
+                if (count > 0) {
+                    const div = document.createElement('div');
+                    div.style.textAlign = 'center';
+                    div.innerHTML = `
+                        <div class="${coin.name.startsWith('bill') ? 'bill' : 'coin'} ${coin.class}" style="margin: 0 auto 5px;">${coin.label}</div>
+                        <div style="color: #fbbf24; font-weight: bold;">x${count}</div>
+                        <div style="color: #9ca3af; font-size: 0.8em;">$${(count * coin.value).toFixed(2)}</div>
+                    `;
+                    container.appendChild(div);
+                }
+            });
+            
+            document.getElementById('register-total').textContent = `$${registerTotal.toFixed(2)}`;
+        }
+
+        function generateStoreProblem() {
+            let maxPrice;
+            switch(currentDifficulty) {
+                case 'easy': maxPrice = 5; break;
+                case 'medium': maxPrice = 10; break;
+                case 'hard': maxPrice = 20; break;
+            }
+            
+            // Pick random item
+            const item = storeItems[Math.floor(Math.random() * storeItems.length)];
+            const priceOptions = item.prices.filter(p => p <= maxPrice);
+            itemPrice = priceOptions.length > 0 ? priceOptions[Math.floor(Math.random() * priceOptions.length)] : item.prices[0];
+            
+            // Pick random customer name
+            const customerName = customerNames[Math.floor(Math.random() * customerNames.length)];
+            
+            // Determine payment amount (customer pays with common bills)
+            const paymentOptions = [1, 5, 10, 20];
+            customerPays = paymentOptions.filter(p => p >= itemPrice)[0] || 20;
+            
+            // Calculate change due
+            changeDue = Math.round((customerPays - itemPrice) * 100) / 100;
+            
+            // Update UI
+            document.getElementById('store-scene').style.display = 'block';
+            document.getElementById('register-display').style.display = 'block';
+            document.getElementById('answer-section').style.display = 'none';
+            document.getElementById('coin-selector').style.display = 'flex';
+            document.getElementById('selected-coins').style.display = 'flex';
+            document.getElementById('problem-text').style.display = 'none';
+            
+            document.getElementById('customer-name').textContent = customerName;
+            document.getElementById('item-icon').textContent = item.icon;
+            document.getElementById('item-name').textContent = item.name;
+            document.getElementById('item-price').textContent = `$${itemPrice.toFixed(2)}`;
+            document.getElementById('customer-pays').textContent = `$${customerPays.toFixed(2)}`;
+            document.getElementById('change-due').textContent = `$${changeDue.toFixed(2)}`;
+            
+            clearSelectedCoins();
+            document.getElementById('store-feedback').style.display = 'none';
+        }
+
         function resetInput() {
             document.getElementById('answer-input').value = '';
             document.getElementById('feedback').className = 'feedback';
@@ -770,6 +917,18 @@
 
         function addSelectedCoin(name, value, label) {
             if (!sessionActive) return;
+            
+            // Check if we have this coin in register for store mode
+            if (currentMode === 'store' && (registerCash[name] || 0) <= 0) {
+                const feedback = document.getElementById('store-feedback');
+                feedback.style.display = 'block';
+                feedback.style.background = 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)';
+                document.getElementById('store-feedback-icon').textContent = '⚠️';
+                document.getElementById('store-feedback-text').textContent = `Out of ${label}! Can't use this coin.`;
+                document.getElementById('store-feedback-text').style.color = '#dc2626';
+                return;
+            }
+            
             selectedCoins.push({ name, value, label });
             selectedTotal += value;
             selectedTotal = Math.round(selectedTotal * 100) / 100;
@@ -804,6 +963,11 @@
             
             if (currentMode === 'change') {
                 checkChangeAnswer();
+                return;
+            }
+            
+            if (currentMode === 'store') {
+                checkStoreAnswer();
                 return;
             }
             
@@ -846,6 +1010,78 @@
                 endSession();
             } else {
                 setTimeout(generateProblem, 1500);
+            }
+        }
+
+        function checkStoreAnswer() {
+            const feedback = document.getElementById('store-feedback');
+            sessionQuestion++;
+            totalCount++;
+            document.getElementById('total').textContent = totalCount;
+            document.getElementById('current-question').textContent = Math.min(sessionQuestion + 1, sessionLength);
+
+            if (Math.abs(selectedTotal - changeDue) < 0.001) {
+                score += 15 + (streak * 2);
+                correctCount++;
+                streak++;
+                
+                selectedCoins.forEach(coin => {
+                    registerCash[coin.name] = (registerCash[coin.name] || 1) - 1;
+                });
+                
+                if (customerPays >= 20) { registerCash['bill-10'] = (registerCash['bill-10'] || 0) + 2; }
+                else if (customerPays >= 10) { registerCash['bill-10'] = (registerCash['bill-10'] || 0) + 1; }
+                else if (customerPays >= 5) { registerCash['bill-5'] = (registerCash['bill-5'] || 0) + 1; }
+                else { registerCash['bill-1'] = (registerCash['bill-1'] || 0) + 1; }
+                
+                registerTotal = 0;
+                const coinValues = {'penny': 0.01, 'nickel': 0.05, 'dime': 0.10, 'quarter': 0.25, 'bill-1': 1, 'bill-5': 5, 'bill-10': 10};
+                for (const [name, count] of Object.entries(registerCash)) {
+                    registerTotal += count * (coinValues[name] || 0);
+                }
+                updateRegisterDisplay();
+                
+                const tip = Math.round((Math.random() * 0.5 + 0.1) * 100) / 100;
+                score += Math.round(tip * 10);
+                
+                feedback.style.display = 'block';
+                feedback.style.background = 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)';
+                document.getElementById('store-feedback-icon').textContent = '🎉';
+                document.getElementById('store-feedback-text').textContent = 'Correct change! Customer is happy!';
+                document.getElementById('store-feedback-text').style.color = '#059669';
+                document.getElementById('store-points').textContent = 15 + (streak-1) * 2;
+                document.getElementById('store-tip').textContent = tip.toFixed(2);
+            } else {
+                streak = 0;
+                const diff = selectedTotal - changeDue;
+                feedback.style.display = 'block';
+                feedback.style.background = 'linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)';
+                
+                if (diff > 0) {
+                    document.getElementById('store-feedback-icon').textContent = '😅';
+                    document.getElementById('store-feedback-text').textContent = `Too much! You gave $${diff.toFixed(2)} extra.`;
+                } else {
+                    document.getElementById('store-feedback-icon').textContent = '😅';
+                    document.getElementById('store-feedback-text').textContent = `Not enough! Need $${Math.abs(diff).toFixed(2)} more.`;
+                }
+                document.getElementById('store-feedback-text').style.color = '#dc2626';
+                document.getElementById('store-points').textContent = '0';
+                document.getElementById('store-tip').textContent = '0.00';
+            }
+
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct').textContent = correctCount;
+
+            if (streak > 1) {
+                document.getElementById('streak').textContent = `🔥 ${streak} streak!`;
+            } else {
+                document.getElementById('streak').textContent = '';
+            }
+
+            if (sessionQuestion >= sessionLength) {
+                endSession();
+            } else {
+                setTimeout(generateProblem, 2000);
             }
         }
 
