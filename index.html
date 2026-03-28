@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Money Practice for 3rd Graders</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            background: #f0f4ff;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 30px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .score-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .score-value.correct {
+            color: #22c55e;
+        }
+
+        .problem-area {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .problem-text {
+            font-size: 1.8em;
+            color: #92400e;
+            margin-bottom: 20px;
+        }
+
+        .money-visual {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            min-height: 80px;
+        }
+
+        .coin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 3px solid rgba(0,0,0,0.1);
+        }
+
+        .penny {
+            background: linear-gradient(135deg, #cd7f32 0%, #b87333 100%);
+            color: white;
+        }
+
+        .nickel {
+            background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+            color: #333;
+        }
+
+        .dime {
+            background: linear-gradient(135deg, #e8e8e8 0%, #d0d0d0 100%);
+            color: #333;
+            width: 50px;
+            height: 50px;
+        }
+
+        .quarter {
+            background: linear-gradient(135deg, #d4d4d4 0%, #b8b8b8 100%);
+            color: #333;
+        }
+
+        .bill {
+            width: 80px;
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+
+        .bill-1 { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
+        .bill-5 { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); }
+        .bill-10 { background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%); }
+
+        .operator {
+            font-size: 3em;
+            color: #667eea;
+            margin: 0 20px;
+            font-weight: bold;
+        }
+
+        .answer-section {
+            background: #ecfdf5;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .answer-label {
+            font-size: 1.3em;
+            color: #059669;
+            margin-bottom: 15px;
+        }
+
+        .answer-input {
+            font-size: 2em;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+            border: 3px solid #22c55e;
+            border-radius: 10px;
+            font-family: inherit;
+            margin-bottom: 20px;
+        }
+
+        .answer-input:focus {
+            outline: none;
+            box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .btn {
+            font-size: 1.3em;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: white;
+        }
+
+        .btn-check:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(34, 197, 94, 0.5);
+        }
+
+        .btn-new {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-new:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .feedback {
+            font-size: 1.5em;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .feedback.correct {
+            display: block;
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .feedback.incorrect {
+            display: block;
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .session-btn {
+            padding: 10px 20px;
+            border: 2px solid #0369a1;
+            background: white;
+            color: #0369a1;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .session-btn.active {
+            background: #0369a1;
+            color: white;
+        }
+
+        .session-btn:hover {
+            background: #0369a1;
+            color: white;
+        }
+
+        .mode-selector {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            padding: 10px 25px;
+            border: 2px solid #667eea;
+            background: white;
+            color: #667eea;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1em;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .mode-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .mode-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .mode-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .difficulty-btn {
+            padding: 8px 20px;
+            border: 2px solid #f59e0b;
+            background: white;
+            color: #f59e0b;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.9em;
+            transition: all 0.3s;
+        }
+
+        .difficulty-btn.active {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .difficulty-btn:hover {
+            background: #f59e0b;
+            color: white;
+        }
+
+        .streak {
+            font-size: 1.2em;
+            color: #f59e0b;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 1.8em; }
+            .problem-text { font-size: 1.3em; }
+            .coin { width: 45px; height: 45px; font-size: 0.7em; }
+            .bill { width: 60px; height: 30px; }
+            .answer-input { width: 150px; font-size: 1.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Money Practice</h1>
+        <p class="subtitle">Adding & Subtracting Money for 3rd Graders</p>
+
+        <div class="score-board">
+            <div class="score-item">
+                <div class="score-label">Score</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Correct</div>
+                <div class="score-value correct" id="correct">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Total</div>
+                <div class="score-value" id="total">0</div>
+            </div>
+        </div>
+
+
+        <div class="session-settings" style="background: #f0f9ff; border-radius: 15px; padding: 20px; margin-bottom: 20px;">
+            <div style="text-align: center; margin-bottom: 15px;">
+                <span style="font-size: 1.2em; color: #0369a1; font-weight: bold;">📋 Session Settings</span>
+            </div>
+            <div class="session-length-selector" style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                <button class="session-btn" onclick="setSessionLength(10)">10 Qs</button>
+                <button class="session-btn active" onclick="setSessionLength(20)">20 Qs</button>
+                <button class="session-btn" onclick="setSessionLength(50)">50 Qs</button>
+                <button class="session-btn" onclick="setSessionLength(100)">100 Qs</button>
+                <button class="session-btn" onclick="setSessionLength(200)">200 Qs</button>
+            </div>
+            <div class="session-progress" id="session-progress" style="text-align: center; margin-top: 15px; font-size: 1.1em; color: #0369a1;">
+                Question: <span id="current-question">1</span> / <span id="total-questions">20</span>
+            </div>
+        </div>
+
+        <div class="session-complete" id="session-complete" style="display: none; background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); border-radius: 15px; padding: 30px; text-align: center; margin-bottom: 20px;">
+            <h2 style="color: #059669; font-size: 2em; margin-bottom: 15px;">🎉 Session Complete!</h2>
+            <div style="display: flex; justify-content: space-around; flex-wrap: wrap; margin-bottom: 20px;">
+                <div style="margin: 10px;">
+                    <div style="font-size: 0.9em; color: #065f46;">Final Score</div>
+                    <div style="font-size: 2.5em; font-weight: bold; color: #059669;" id="final-score">0</div>
+                </div>
+                <div style="margin: 10px;">
+                    <div style="font-size: 0.9em; color: #065f46;">Correct</div>
+                    <div style="font-size: 2.5em; font-weight: bold; color: #059669;" id="final-correct">0/0</div>
+                </div>
+                <div style="margin: 10px;">
+                    <div style="font-size: 0.9em; color: #065f46;">Accuracy</div>
+                    <div style="font-size: 2.5em; font-weight: bold; color: #059669;" id="final-accuracy">0%</div>
+                </div>
+            </div>
+            <button class="btn btn-new" onclick="startNewSession()">🔄 Start New Session</button>
+        </div>
+
+        <div class="mode-selector" id="mode-selector">
+            <button class="mode-btn active" onclick="setMode('addition')">➕ Addition</button>
+            <button class="mode-btn" onclick="setMode('subtraction')">➖ Subtraction</button>
+            <button class="mode-btn" onclick="setMode('mixed')">🔀 Mixed</button>
+        </div>
+
+        <div class="difficulty-selector">
+            <button class="difficulty-btn" onclick="setDifficulty('easy')">Easy</button>
+            <button class="difficulty-btn active" onclick="setDifficulty('medium')">Medium</button>
+            <button class="difficulty-btn" onclick="setDifficulty('hard')">Hard</button>
+        </div>
+
+        <div class="problem-area">
+            <div class="problem-text" id="problem-text">Let's practice!</div>
+            <div class="money-visual" id="money-visual-1"></div>
+            <div class="operator" id="operator">+</div>
+            <div class="money-visual" id="money-visual-2"></div>
+        </div>
+
+        <div class="answer-section">
+            <div class="answer-label">What is the total? $</div>
+            <input type="number" class="answer-input" id="answer-input" placeholder="0.00" step="0.01">
+            <br>
+            <button class="btn btn-check" onclick="checkAnswer()">✓ Check Answer</button>
+            <button class="btn btn-new" onclick="generateProblem()">🔄 New Problem</button>
+            <div class="feedback" id="feedback"></div>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let correctCount = 0;
+        let totalCount = 0;
+        let streak = 0;
+        let currentMode = 'addition';
+        let currentDifficulty = 'medium';
+        let currentAnswer = 0;
+        let sessionLength = 20;
+        let sessionQuestion = 0;
+        let sessionActive = true;
+        let problemHistory = []; // Track generated problems to ensure variety
+
+        function setSessionLength(length) {
+            sessionLength = length;
+            document.querySelectorAll('.session-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('total-questions').textContent = sessionLength;
+            startNewSession();
+        }
+
+        function startNewSession() {
+            sessionQuestion = 0;
+            score = 0;
+            correctCount = 0;
+            totalCount = 0;
+            streak = 0;
+            sessionActive = true;
+            problemHistory = [];
+            
+            document.getElementById('score').textContent = '0';
+            document.getElementById('correct').textContent = '0';
+            document.getElementById('total').textContent = '0';
+            document.getElementById('current-question').textContent = '1';
+            document.getElementById('session-complete').style.display = 'none';
+            document.getElementById('mode-selector').style.display = 'flex';
+            document.getElementById('session-progress').style.display = 'block';
+            document.getElementById('problem-area').style.display = 'flex';
+            document.getElementById('answer-section').style.display = 'block';
+            
+            generateProblem();
+        }
+
+        const coins = [
+            { name: 'penny', value: 0.01, class: 'penny', label: '1¢' },
+            { name: 'nickel', value: 0.05, class: 'nickel', label: '5¢' },
+            { name: 'dime', value: 0.10, class: 'dime', label: '10¢' },
+            { name: 'quarter', value: 0.25, class: 'quarter', label: '25¢' }
+        ];
+
+        const bills = [
+            { name: 'bill-1', value: 1, class: 'bill-1', label: '$1' },
+            { name: 'bill-5', value: 5, class: 'bill-5', label: '$5' },
+            { name: 'bill-10', value: 10, class: 'bill-10', label: '$10' }
+        ];
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            generateProblem();
+        }
+
+        function setDifficulty(diff) {
+            currentDifficulty = diff;
+            document.querySelectorAll('.difficulty-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            generateProblem();
+        }
+
+        function getRandomMoney(maxAmount) {
+            let amount = 0;
+            const items = [];
+            
+            // Add some bills
+            const numBills = Math.floor(Math.random() * 3);
+            for (let i = 0; i < numBills; i++) {
+                const bill = bills[Math.floor(Math.random() * bills.length)];
+                if (amount + bill.value <= maxAmount) {
+                    amount += bill.value;
+                    items.push(bill);
+                }
+            }
+
+            // Add some coins
+            const numCoins = Math.floor(Math.random() * 5) + 2;
+            for (let i = 0; i < numCoins; i++) {
+                const coin = coins[Math.floor(Math.random() * coins.length)];
+                if (amount + coin.value <= maxAmount) {
+                    amount += coin.value;
+                    items.push(coin);
+                }
+            }
+
+            return { amount: Math.round(amount * 100) / 100, items };
+        }
+
+        function renderMoney(items, elementId) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            items.forEach(item => {
+                const el = document.createElement('div');
+                if (item.name.startsWith('bill')) {
+                    el.className = `bill ${item.class}`;
+                    el.textContent = item.label;
+                } else {
+                    el.className = `coin ${item.class}`;
+                    el.textContent = item.label;
+                }
+                container.appendChild(el);
+            });
+        }
+
+        function generateProblem() {
+            let maxAmount, amount1, amount2;
+
+            switch(currentDifficulty) {
+                case 'easy':
+                    maxAmount = 5;
+                    break;
+                case 'medium':
+                    maxAmount = 20;
+                    break;
+                case 'hard':
+                    maxAmount = 50;
+                    break;
+            }
+
+            const money1 = getRandomMoney(maxAmount);
+            const money2 = getRandomMoney(maxAmount);
+
+            // Determine operation
+            let operation = currentMode;
+            if (currentMode === 'mixed') {
+                operation = Math.random() > 0.5 ? 'addition' : 'subtraction';
+            }
+
+            // For subtraction, ensure first amount is larger
+            if (operation === 'subtraction' && money1.amount < money2.amount) {
+                [amount1, amount2] = [money2.amount, money1.amount];
+                [money1.items, money2.items] = [money2.items, money1.items];
+            } else {
+                amount1 = money1.amount;
+                amount2 = money2.amount;
+            }
+
+            // Update operator display
+            document.getElementById('operator').textContent = operation === 'addition' ? '+' : '−';
+
+            // Render money visuals
+            renderMoney(money1.items, 'money-visual-1');
+            renderMoney(money2.items, 'money-visual-2');
+
+            // Set problem text
+            document.getElementById('problem-text').textContent = 
+                `$${amount1.toFixed(2)} ${operation === 'addition' ? '+' : '−'} $${amount2.toFixed(2)} = ?`;
+
+            // Calculate answer
+            currentAnswer = operation === 'addition' ? amount1 + amount2 : amount1 - amount2;
+            currentAnswer = Math.round(currentAnswer * 100) / 100;
+
+            // Clear input and feedback
+            document.getElementById('answer-input').value = '';
+            document.getElementById('feedback').className = 'feedback';
+            document.getElementById('answer-input').focus();
+        }
+
+        function checkAnswer() {
+            if (!sessionActive) return;
+            
+            const userInput = parseFloat(document.getElementById('answer-input').value);
+            const feedback = document.getElementById('feedback');
+
+            if (isNaN(userInput)) {
+                feedback.textContent = '⚠️ Please enter a number!';
+                feedback.className = 'feedback incorrect';
+                return;
+            }
+
+            sessionQuestion++;
+            totalCount++;
+            document.getElementById('total').textContent = totalCount;
+            document.getElementById('current-question').textContent = Math.min(sessionQuestion + 1, sessionLength);
+
+            if (Math.abs(userInput - currentAnswer) < 0.001) {
+                // Correct!
+                score += 10 + (streak * 2);
+                correctCount++;
+                streak++;
+                feedback.textContent = `🎉 Correct! Great job! (+${10 + (streak-1) * 2} points)`;
+                feedback.className = 'feedback correct';
+            } else {
+                // Incorrect
+                streak = 0;
+                feedback.textContent = `😅 Not quite! The answer was $${currentAnswer.toFixed(2)}`;
+                feedback.className = 'feedback incorrect';
+            }
+
+            document.getElementById('score').textContent = score;
+            document.getElementById('correct').textContent = correctCount;
+
+            // Update streak display
+            if (streak > 1) {
+                document.getElementById('streak').textContent = `🔥 ${streak} streak!`;
+            } else {
+                document.getElementById('streak').textContent = '';
+            }
+
+            // Check if session is complete
+            if (sessionQuestion >= sessionLength) {
+                endSession();
+            } else {
+                // Auto-generate next problem after short delay
+                setTimeout(generateProblem, 1500);
+            }
+        }
+
+        function endSession() {
+            sessionActive = false;
+            const accuracy = totalCount > 0 ? Math.round((correctCount / totalCount) * 100) : 0;
+            
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('final-correct').textContent = `${correctCount}/${totalCount}`;
+            document.getElementById('final-accuracy').textContent = `${accuracy}%`;
+            document.getElementById('session-complete').style.display = 'block';
+            document.getElementById('mode-selector').style.display = 'none';
+            document.getElementById('session-progress').style.display = 'none';
+            document.getElementById('problem-area').style.display = 'none';
+            document.getElementById('answer-section').style.display = 'none';
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('answer-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+
+        // Generate first problem on load
+        generateProblem();
+    </script>
+</body>
+</html>
