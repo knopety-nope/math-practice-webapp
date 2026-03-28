@@ -567,7 +567,7 @@
                 <div id="selected-coins-container" style="display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;"></div>
                 <div id="selected-total" style="width: 100%; text-align: center; margin-top: 10px; font-size: 1.3em; color: #059669;">Total: $0.00</div>
                 <div style="margin-top: 15px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn btn-check" onclick="checkStoreAnswer()" style="padding: 10px 25px; font-size: 1.1em;">✓ Submit Change</button>
+                    <button class="btn btn-check" onclick="submitCoinAnswer()" style="padding: 10px 25px; font-size: 1.1em;">✓ Submit</button>
                     <button class="btn btn-new" onclick="clearSelectedCoins()" style="padding: 10px 25px; font-size: 1.1em;">🗑️ Clear</button>
                 </div>
             </div>
@@ -961,6 +961,15 @@
             document.getElementById('answer-input').value = '';
             document.getElementById('feedback').className = 'feedback';
             document.getElementById('answer-input').focus();
+        }
+
+        function submitCoinAnswer() {
+            // Route to correct answer checker based on mode
+            if (currentMode === 'store') {
+                checkStoreAnswer();
+            } else if (currentMode === 'change') {
+                checkChangeAnswer();
+            }
         }
 
         function addSelectedCoin(name, value, label) {
