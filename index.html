@@ -815,6 +815,12 @@
             }
 
             const money = getRandomMoney(maxAmount);
+            // Hide other mode elements
+            document.getElementById('coin-selector').style.display = 'none';
+            document.getElementById('selected-coins').style.display = 'none';
+            document.getElementById('store-scene').style.display = 'none';
+            document.getElementById('register-display').style.display = 'none';
+            // Show money pile
             document.getElementById('money-pile').style.display = 'flex';
             document.getElementById('money-pile').innerHTML = '';
             money.items.forEach(item => {
@@ -830,12 +836,15 @@
             });
             document.getElementById('problem-text').textContent = '🪙 Count the money! What is the total?';
             currentAnswer = money.amount;
-            // Ensure answer-section is fully visible for input
+            // Show answer section fully for input and feedback
             document.getElementById('answer-section').style.display = 'block';
             document.getElementById('answer-input').style.display = 'inline-block';
+            document.getElementById('answer-input').value = '';
             document.querySelector('.answer-label').style.display = 'inline-block';
             document.querySelectorAll('#answer-section .btn-check, #answer-section .btn-new').forEach(btn => btn.style.display = 'inline-block');
-            resetInput();
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('answer-input').focus();
         }
 
         function generateChangeProblem() {
@@ -847,6 +856,11 @@
             }
 
             targetAmount = Math.round((Math.random() * maxAmount + 1) * 100) / 100;
+            // Hide other mode elements
+            document.getElementById('money-pile').style.display = 'none';
+            document.getElementById('store-scene').style.display = 'none';
+            document.getElementById('register-display').style.display = 'none';
+            // Show coin selector and selected coins
             document.getElementById('coin-selector').style.display = 'flex';
             document.getElementById('selected-coins').style.display = 'flex';
             document.getElementById('problem-text').textContent = `💵 Make exact change for $${targetAmount.toFixed(2)}!`;
@@ -855,6 +869,10 @@
             document.getElementById('answer-input').style.display = 'none';
             document.querySelector('.answer-label').style.display = 'none';
             document.querySelectorAll('#answer-section .btn-check, #answer-section .btn-new').forEach(btn => btn.style.display = 'none');
+            // Clear and prepare feedback area
+            document.getElementById('feedback').style.display = 'block';
+            document.getElementById('feedback').textContent = '';
+            document.getElementById('feedback').className = 'feedback';
             clearSelectedCoins();
         }
 
