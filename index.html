@@ -615,21 +615,26 @@
         const customerNames = ['Emma', 'Liam', 'Olivia', 'Noah', 'Ava', 'Oliver', 'Sophia', 'Elijah', 'Isabella', 'Mason', 'Mia', 'Lucas', 'Charlotte', 'Ethan', 'Amelia'];
         
         const storeItems = [
-            { name: 'Apple', icon: '🍎', prices: [0.50, 0.75, 1.00, 1.25, 1.50] },
-            { name: 'Banana', icon: '🍌', prices: [0.30, 0.50, 0.75, 1.00] },
-            { name: 'Orange', icon: '🍊', prices: [0.60, 0.80, 1.00, 1.20] },
-            { name: 'Bread', icon: '🍞', prices: [2.00, 2.50, 3.00, 3.50] },
-            { name: 'Milk', icon: '🥛', prices: [1.50, 2.00, 2.50, 3.00] },
-            { name: 'Cookie', icon: '🍪', prices: [0.50, 0.75, 1.00, 1.25] },
-            { name: 'Candy', icon: '🍬', prices: [0.25, 0.50, 0.75, 1.00] },
-            { name: 'Ice Cream', icon: '🍦', prices: [1.50, 2.00, 2.50, 3.00] },
-            { name: 'Pizza', icon: '🍕', prices: [2.50, 3.00, 3.50, 4.00] },
-            { name: 'Sandwich', icon: '🥪', prices: [3.00, 4.00, 5.00, 6.00] },
-            { name: 'Juice', icon: '🧃', prices: [1.00, 1.50, 2.00, 2.50] },
-            { name: 'Donut', icon: '🍩', prices: [0.75, 1.00, 1.25, 1.50] },
-            { name: 'Cake', icon: '🍰', prices: [3.00, 4.00, 5.00, 6.00] },
-            { name: 'Coffee', icon: '☕', prices: [1.50, 2.00, 2.50, 3.00] },
-            { name: 'Toy', icon: '🧸', prices: [5.00, 7.50, 10.00, 12.50] }
+            { name: 'Apple', icon: '🍎', prices: [0.47, 0.53, 0.68, 0.79, 0.91, 1.13, 1.37, 1.52] },
+            { name: 'Banana', icon: '🍌', prices: [0.33, 0.42, 0.58, 0.67, 0.84, 0.99] },
+            { name: 'Orange', icon: '🍊', prices: [0.57, 0.63, 0.78, 0.94, 1.07, 1.23] },
+            { name: 'Grapes', icon: '🍇', prices: [1.47, 1.83, 2.17, 2.54, 2.91] },
+            { name: 'Strawberry', icon: '🍓', prices: [1.33, 1.67, 1.94, 2.28, 2.73] },
+            { name: 'Bread', icon: '🍞', prices: [2.17, 2.43, 2.78, 3.14, 3.57, 3.92] },
+            { name: 'Milk', icon: '🥛', prices: [1.67, 1.93, 2.28, 2.64, 2.97] },
+            { name: 'Cookie', icon: '🍪', prices: [0.43, 0.67, 0.83, 1.07, 1.28, 1.47] },
+            { name: 'Candy', icon: '🍬', prices: [0.37, 0.54, 0.73, 0.89, 1.17] },
+            { name: 'Ice Cream', icon: '🍦', prices: [1.73, 2.14, 2.47, 2.83, 3.19] },
+            { name: 'Pizza', icon: '🍕', prices: [2.67, 3.14, 3.58, 3.97, 4.33, 4.78] },
+            { name: 'Sandwich', icon: '🥪', prices: [3.47, 4.13, 4.78, 5.34, 5.97, 6.43] },
+            { name: 'Juice', icon: '🧃', prices: [1.17, 1.43, 1.78, 2.14, 2.53] },
+            { name: 'Donut', icon: '🍩', prices: [0.87, 1.13, 1.38, 1.67, 1.94] },
+            { name: 'Cake', icon: '🍰', prices: [3.47, 4.23, 4.87, 5.54, 6.17, 6.83] },
+            { name: 'Coffee', icon: '☕', prices: [1.73, 2.17, 2.54, 2.93, 3.37] },
+            { name: 'Toy', icon: '🧸', prices: [5.47, 7.23, 8.94, 10.67, 12.38, 14.73] },
+            { name: 'Book', icon: '📚', prices: [4.37, 6.14, 7.83, 9.47, 11.28] },
+            { name: 'Chips', icon: '🍟', prices: [0.97, 1.34, 1.78, 2.23, 2.67] },
+            { name: 'Hot Dog', icon: '🌭', prices: [2.37, 2.84, 3.27, 3.78, 4.23] }
         ];
         function setSessionLength(length) {
             sessionLength = length;
@@ -676,7 +681,10 @@
         const bills = [
             { name: 'bill-1', value: 1, class: 'bill-1', label: '$1' },
             { name: 'bill-5', value: 5, class: 'bill-5', label: '$5' },
-            { name: 'bill-10', value: 10, class: 'bill-10', label: '$10' }
+            { name: 'bill-10', value: 10, class: 'bill-10', label: '$10' },
+            { name: 'bill-20', value: 20, class: 'bill-20', label: '$20' },
+            { name: 'bill-50', value: 50, class: 'bill-50', label: '$50' },
+            { name: 'bill-100', value: 100, class: 'bill-100', label: '$100' }
         ];
 
         function setMode(mode) {
@@ -822,6 +830,11 @@
             });
             document.getElementById('problem-text').textContent = '🪙 Count the money! What is the total?';
             currentAnswer = money.amount;
+            // Ensure answer-section is fully visible for input
+            document.getElementById('answer-section').style.display = 'block';
+            document.getElementById('answer-input').style.display = 'inline-block';
+            document.querySelector('.answer-label').style.display = 'inline-block';
+            document.querySelectorAll('#answer-section .btn-check, #answer-section .btn-new').forEach(btn => btn.style.display = 'inline-block');
             resetInput();
         }
 
@@ -837,7 +850,11 @@
             document.getElementById('coin-selector').style.display = 'flex';
             document.getElementById('selected-coins').style.display = 'flex';
             document.getElementById('problem-text').textContent = `💵 Make exact change for $${targetAmount.toFixed(2)}!`;
-            document.getElementById('answer-section').style.display = 'none';
+            // Hide input but keep answer-section visible for feedback
+            document.getElementById('answer-section').style.display = 'block';
+            document.getElementById('answer-input').style.display = 'none';
+            document.querySelector('.answer-label').style.display = 'none';
+            document.querySelectorAll('#answer-section .btn-check, #answer-section .btn-new').forEach(btn => btn.style.display = 'none');
             clearSelectedCoins();
         }
 
@@ -924,7 +941,19 @@
             } else {
                 paymentOptions = [10, 20, 50, 100];
             }
-            customerPays = paymentOptions.filter(p => p >= itemPrice)[0] || 50;
+            
+            // Filter valid payments and pick randomly (not just the first/lowest)
+            const validPayments = paymentOptions.filter(p => p >= itemPrice);
+            
+            // Hard mode: sometimes force larger bills for harder change calculations
+            if (currentDifficulty === 'hard' && Math.random() > 0.5 && validPayments.length > 1) {
+                // Pick from larger bills (skip the smallest valid option)
+                const largerBills = validPayments.slice(1);
+                customerPays = largerBills.length > 0 ? largerBills[Math.floor(Math.random() * largerBills.length)] : validPayments[0];
+            } else {
+                // Random pick from all valid options
+                customerPays = validPayments[Math.floor(Math.random() * validPayments.length)];
+            }
             
             // Calculate change due
             changeDue = Math.round((customerPays - itemPrice) * 100) / 100;
